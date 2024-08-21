@@ -12,7 +12,7 @@ function login() {
 
         <h3 className="text-base">Join the world's largest community</h3>
 
-        <form className="grid grid-cols-4 gap-6 text-xl text-left px-32 mt-10">
+        <form className="grid grid-cols-4 gap-6 text-xl text-left px-4 mt-10">
           <div className="col-span-2">
             <label>Enter Username :</label>
             <br />

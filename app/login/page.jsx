@@ -8,11 +8,11 @@ function login() {
         <img src="/login.jpg" alt="beautiful" />
       </div>
       <div className="text-center text-4xl bg-[#FF5757] w-full h-[40rem] text-white p-12">
-        <h1>Welcome Back</h1>
+        <h1 className="font-bold">Welcome Back</h1>
 
-        <h3 className="text-lg">Join the world's largest community</h3>
+        <h3 className="text-base">Join the world's largest community</h3>
 
-        <form className="flex-1 gap-6 text-xl text-left px-32">
+        <form className="flex-1 mt-6 gap-6 text-xl text-left px-32">
           <div>
             <label>Enter Username :</label>
             <br />
