@@ -1,15 +1,13 @@
-import mongoose from "mongoose";
+import { Sequelize } from "sequelize";
+import postgres from "postgres";
+import pg from "pg";
 
-export async function connect(params) {
-  try {
-    mongoose.connect(process.env.MONGO_URI);
-    const connection = mongoose.connection;
+const DATABASE_URL = "postgres://postgres:1122@localhost:5432/onemall";
 
-    connection.on("connected", () => {
-      console.log("MongoDB connected");
-    });
-  } catch {
-    console.log("Something went wrong");
-    console.error(error);
-  }
-}
+const sequelize = new Sequelize(DATABASE_URL, {
+  dialect: "postgres",
+  protocol: "postgres",
+  dialectModule: pg,
+});
+
+export default sequelize;

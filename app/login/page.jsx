@@ -19,7 +19,7 @@ function login() {
             <input
               type="text"
               placeholder="Username, Email or Phone no."
-              className="rounded-lg p-2 w-full"
+              className="rounded-lg p-2 w-full text-black"
             />
           </div>
 
@@ -33,7 +33,7 @@ function login() {
             <input
               type="text"
               placeholder="Enter Registered Password"
-              className="rounded-lg p-2 w-full"
+              className="rounded-lg p-2 w-full text-black"
             />
           </div>
 

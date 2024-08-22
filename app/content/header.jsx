@@ -24,13 +24,13 @@ const Header = () => {
         <div className="flex gap-6">
           <Link
             href={"/login"}
-            className="flex justify-center bg-[#F13C3C] p-3 rounded-md shadow-sm shadow-black hover:bg-[#fc2e2e] border-[#444444] border-2"
+            className="flex justify-center animate-bounce hover:animate-none bg-[#F13C3C] p-3 rounded-md shadow-sm shadow-black hover:bg-[#fc2e2e] border-[#444444] border-2"
           >
             Login
           </Link>
           <Link
             href={"/signup"}
-            className="flex justify-center bg-[#F13C3C] p-3 rounded-md shadow-sm shadow-black hover:bg-[#fc2e2e] border-[#444444] border-2"
+            className="flex justify-center animate-bounce hover:animate-none bg-[#F13C3C] p-3 rounded-md shadow-sm shadow-black hover:bg-[#fc2e2e] border-[#444444] border-2"
           >
             Sign Up
           </Link>

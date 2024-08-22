@@ -1,7 +1,35 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import { FaGoogle, FaFacebook, FaItunes } from "react-icons/fa";
-function login() {
+
+function signup() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handlesubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("../api/signup.js", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password, email }),
+      });
+
+      if (response.ok) {
+        console.log("Signup Successful!!");
+      } else {
+        console.error("Signup Failed");
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
+
   return (
     <div className="flex w-[60%] m-auto overflow-hidden">
       <div className="w-[62.1%]">
@@ -12,14 +40,19 @@ function login() {
 
         <h3 className="text-base">Join the world's largest community</h3>
 
-        <form className="grid grid-cols-4 gap-6 text-xl text-left px-4 mt-10">
+        <form
+          className="grid grid-cols-4 gap-6 text-xl text-left px-4 mt-10"
+          onSubmit={(event) => handlesubmit(event)}
+        >
           <div className="col-span-2">
             <label>Enter Username :</label>
             <br />
             <input
               type="text"
               placeholder="Username Here"
-              className="rounded-lg p-2 w-full text-sm"
+              className="rounded-lg p-2 w-full text-sm text-black"
+              value={username}
+              onChange={(x) => setUsername(x.target.value)}
             />
           </div>
 
@@ -31,7 +64,9 @@ function login() {
             <input
               type="text"
               placeholder="Enter Password"
-              className="rounded-lg p-2 w-full text-sm"
+              className="rounded-lg p-2 w-full text-sm text-black"
+              value={password}
+              onChange={(x) => setPassword(x.target.value)}
             />
           </div>
           <div className="col-span-2">
@@ -40,7 +75,7 @@ function login() {
             <input
               type="text"
               placeholder="Repeat Password"
-              className="rounded-lg p-2 w-full text-sm"
+              className="rounded-lg p-2 w-full text-sm text-black"
             />
           </div>
 
@@ -52,12 +87,17 @@ function login() {
             <input
               type="text"
               placeholder="Enter Email"
-              className="rounded-lg p-2 w-full text-sm"
+              className="rounded-lg p-2 w-full text-sm text-black"
+              value={email}
+              onChange={(x) => setEmail(x.target.value)}
             />
           </div>
 
           <div className="col-span-4">
-            <button className="flex justify-center m-auto mt-10 bg-[#F13C3C] p-3 rounded-md shadow-sm shadow-black hover:bg-[#fc2e2e] border-[#444444] border-2 w-2/4 ">
+            <button
+              className="flex justify-center m-auto mt-10 bg-[#F13C3C] p-3 rounded-md shadow-sm shadow-black hover:bg-[#fc2e2e] border-[#444444] border-2 w-2/4 "
+              type="submit"
+            >
               SignUp
             </button>
           </div>
@@ -76,8 +116,8 @@ function login() {
         <div>
           <p className="text-lg mt-6">
             Already Registered?{" "}
-            <a href="/login" className="text-white font-bold">
-              LOGIN HERE
+            <a href="/signup" className="text-white font-bold">
+              signup HERE
             </a>
           </p>
         </div>
@@ -86,4 +126,4 @@ function login() {
   );
 }
 
-export default login;
+export default signup;
