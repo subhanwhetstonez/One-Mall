@@ -1,18 +1,19 @@
 "use client";
-import React, { useState } from "react";
 import Image from "next/image";
-import { FaGoogle, FaFacebook, FaItunes } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaItunes, FaSign } from "react-icons/fa";
+import { useState } from "react";
 
-function signup() {
+function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handlesubmit = async (event) => {
-    event.preventDefault();
-
+  const handlesubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await fetch("../api/signup.js", {
+      const response = await fetch("/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,20 +21,30 @@ function signup() {
         body: JSON.stringify({ username, password, email }),
       });
 
-      if (response.ok) {
-        console.log("Signup Successful!!");
+      if (response.status === 201) {
+        setSuccess("User created successfully!");
+        setError("");
+      } else if (response.status === 409) {
+        setError("User already exists.");
+        setSuccess("");
       } else {
-        console.error("Signup Failed");
+        setError("An error occurred. Please try again.");
+        setSuccess("");
       }
     } catch (error) {
-      console.error("Error: ", error);
+      setError("Error submitting form: " + error.message);
+      setSuccess("");
     }
   };
 
   return (
-    <div className="flex w-[60%] m-auto overflow-hidden">
-      <div className="w-[62.1%]">
-        <img src="/signup.jpg" alt="beautiful" />
+    <div className="flex flex-col lg:flex-row w-[60%] m-auto overflow-hidden">
+      <div className="w-full lg:w-[62.1%]">
+        <img
+          src="/signup.jpg"
+          alt="beautiful"
+          className="w-full lg:h-full h-52 object-cover hover:object-left-bottom hover:animate-ping "
+        />
       </div>
       <div className="text-center text-4xl bg-[#FF5757] w-full h-[40rem] text-white p-12">
         <h1 className="font-bold">Welcome Back</h1>
@@ -42,7 +53,7 @@ function signup() {
 
         <form
           className="grid grid-cols-4 gap-6 text-xl text-left px-4 mt-10"
-          onSubmit={(event) => handlesubmit(event)}
+          onSubmit={handlesubmit}
         >
           <div className="col-span-2">
             <label>Enter Username :</label>
@@ -58,9 +69,7 @@ function signup() {
 
           <div className="col-span-2">
             <label>Enter Password :</label>
-
             <br />
-
             <input
               type="text"
               placeholder="Enter Password"
@@ -81,9 +90,7 @@ function signup() {
 
           <div className="col-span-2">
             <label>Enter Email :</label>
-
             <br />
-
             <input
               type="text"
               placeholder="Enter Email"
@@ -92,7 +99,14 @@ function signup() {
               onChange={(x) => setEmail(x.target.value)}
             />
           </div>
-
+          <div className="col-span-4 text-center">
+            {error && (
+              <p className="text-white mt-4">
+                {FaSign} {error}
+              </p>
+            )}
+            {success && <p className="text-green-600 mt-4">{success}</p>}
+          </div>
           <div className="col-span-4">
             <button
               className="flex justify-center m-auto mt-10 bg-[#F13C3C] p-3 rounded-md shadow-sm shadow-black hover:bg-[#fc2e2e] border-[#444444] border-2 w-2/4 "
@@ -126,4 +140,4 @@ function signup() {
   );
 }
 
-export default signup;
+export default Signup;

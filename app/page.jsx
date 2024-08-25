@@ -1,5 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
+import pool from "@/utils/postgres";
+
+const fetchDataDromDB = async () => {
+  try {
+    const client = await pool.connect();
+    console.log("Connected to Database!");
+
+    const result = await client.query("SELECT * FROM public.user");
+    const data = result.rows;
+    console.log("Fetched data:", data);
+
+    client.release();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+fetchDataDromDB()
+  .then((data) => {
+    console.log("Received data:", data);
+  })
+  .catch((error) => {
+    console.error("Error fetching data:", error);
+  });
 
 export default function Home() {
   return (

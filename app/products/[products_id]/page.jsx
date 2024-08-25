@@ -1,8 +1,11 @@
 "use client";
 import React from "react";
 
-async function singleProduct(params) {
-  fetch(`https://fakestoreapi.com/products/${params}`)
+async function fetchData(req, res) {
+  const id = req.params;
+}
+async function singleProduct(id) {
+  fetch(`https://fakestoreapi.com/products/${id}`)
     .then((res) => res.json())
     .then((json) => console.log(json));
 }

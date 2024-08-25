@@ -1,74 +1,28 @@
 import { DataTypes } from "sequelize";
-import sequelize from "@/dbConfig/dbConfig";
+import sequelize from "@/lib/dbConfig";
 
-const User = sequelize.define(
-  "user",
-  {
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        msg: "Username already exists",
-      },
-      validate: {
-        notEmpty: {
-          msg: "Please provide a User Name",
-        },
-      },
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        msg: "Email already exists",
-      },
-      validate: {
-        isEmail: {
-          msg: "Please provide a valid Email",
-        },
-        notEmpty: {
-          msg: "Please provide an Email",
-        },
-      },
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: "Please provide a Password",
-        },
-      },
-    },
-    isVerified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    isAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    forgotPasswordToken: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    forgotPasswordTokenExpiry: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    verifyToken: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    verifyTokenExpiry: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
+const User = sequelize.define("user", {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    autoIncrement: true,
   },
-  {
-    timestamps: true,
-    tableName: "users",
-  }
-);
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  timestamps: true,
+});
 
+User.sync();
 export default User;
