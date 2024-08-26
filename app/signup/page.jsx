@@ -2,28 +2,40 @@
 import Image from "next/image";
 import { FaGoogle, FaFacebook, FaItunes, FaSign } from "react-icons/fa";
 import { useState } from "react";
+import axios from "axios";
 
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handlesubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      setSuccess("");
+      return;
+    }
+
     try {
-      const response = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password, email }),
+      const response = await axios.post("http://localhost:5000/user/register", {
+        username,
+        email,
+        password,
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         setSuccess("User created successfully!");
         setError("");
+        // Optionally, clear the form fields after successful registration
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
       } else if (response.status === 409) {
         setError("User already exists.");
         setSuccess("");
@@ -32,7 +44,7 @@ function Signup() {
         setSuccess("");
       }
     } catch (error) {
-      setError("Error submitting form: " + error.message);
+      setError("Error submitting form: ", error);
       setSuccess("");
     }
   };
@@ -53,7 +65,7 @@ function Signup() {
 
         <form
           className="grid grid-cols-4 gap-6 text-xl text-left px-4 mt-10"
-          onSubmit={handlesubmit}
+          onSubmit={handleSubmit}
         >
           <div className="col-span-2">
             <label>Enter Username :</label>
@@ -71,7 +83,7 @@ function Signup() {
             <label>Enter Password :</label>
             <br />
             <input
-              type="text"
+              type="password"
               placeholder="Enter Password"
               className="rounded-lg p-2 w-full text-sm text-black"
               value={password}
@@ -82,9 +94,11 @@ function Signup() {
             <label>Confirm Password :</label>
             <br />
             <input
-              type="text"
+              type="password"
               placeholder="Repeat Password"
               className="rounded-lg p-2 w-full text-sm text-black"
+              value={confirmPassword}
+              onChange={(x) => setConfirmPassword(x.target.value)}
             />
           </div>
 
@@ -92,7 +106,7 @@ function Signup() {
             <label>Enter Email :</label>
             <br />
             <input
-              type="text"
+              type="email"
               placeholder="Enter Email"
               className="rounded-lg p-2 w-full text-sm text-black"
               value={email}
@@ -102,7 +116,7 @@ function Signup() {
           <div className="col-span-4 text-center">
             {error && (
               <p className="text-white mt-4">
-                {FaSign} {error}
+                <FaSign /> {error}
               </p>
             )}
             {success && <p className="text-green-600 mt-4">{success}</p>}
@@ -131,7 +145,7 @@ function Signup() {
           <p className="text-lg mt-6">
             Already Registered?{" "}
             <a href="/signup" className="text-white font-bold">
-              signup HERE
+              Sign up HERE
             </a>
           </p>
         </div>

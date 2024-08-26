@@ -1,7 +1,36 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import { FaGoogle, FaFacebook, FaItunes } from "react-icons/fa";
-function login() {
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
+function Login() {
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:5000/user/login", {
+        identifier,
+        password,
+      });
+
+      if (response.status === 200) {
+        setError("");
+        router.push("/");
+      } else {
+        setError("Invalid credentials. Please try again.");
+      }
+    } catch (err) {
+      setError("Login failed: " + err.response?.data?.message || err.message);
+    }
+  };
+
   return (
     <div className="flex w-[60%] m-auto overflow-hidden">
       <div className="w-[62.1%]">
@@ -12,14 +41,19 @@ function login() {
 
         <h3 className="text-base">Join the world's largest community</h3>
 
-        <form className="flex-1 mt-6 gap-6 text-xl text-left px-32">
+        <form
+          className="flex-1 mt-6 gap-6 text-xl text-left px-32"
+          onSubmit={handleSubmit}
+        >
           <div>
-            <label>Enter Username :</label>
+            <label>Enter Email :</label>
             <br />
             <input
-              type="text"
+              type="email"
               placeholder="Username, Email or Phone no."
               className="rounded-lg p-2 w-full text-black"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
             />
           </div>
 
@@ -31,14 +65,21 @@ function login() {
             <br />
 
             <input
-              type="text"
+              type="password"
               placeholder="Enter Registered Password"
               className="rounded-lg p-2 w-full text-black"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
+          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+
           <div>
-            <button className="flex justify-center m-auto mt-10 bg-[#F13C3C] p-3 rounded-md shadow-sm shadow-black hover:bg-[#fc2e2e] border-[#444444] border-2 w-2/4 ">
+            <button
+              type="submit"
+              className="flex justify-center m-auto mt-10 bg-[#F13C3C] p-3 rounded-md shadow-sm shadow-black hover:bg-[#fc2e2e] border-[#444444] border-2 w-2/4 "
+            >
               Login
             </button>
           </div>
@@ -67,4 +108,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;

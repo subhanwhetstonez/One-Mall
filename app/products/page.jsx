@@ -4,19 +4,11 @@ import productlist from "../content/product";
 export default async function Product() {
   const products = await productlist();
 
-  // useEffect(() => {
-  //   axios
-  //     .get("https://fakestoreapi.com/products")
-  //     .then((res) => setMyData(res.data));
-  // }, []);
   return (
     <div>
       <div className="text-center text-5xl p-6">
         <h1>Product List</h1>
       </div>
-      {/* {myData.map((product) => {
-          const { id, image, title, price, description } = product; 
-        return (*/}
       {products.map((product) => {
         const { id, image, title, price, description } = product;
         return (
