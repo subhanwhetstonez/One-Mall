@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 function Login() {
-  const [identifier, setIdentifier] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
@@ -16,13 +16,13 @@ function Login() {
 
     try {
       const response = await axios.post("http://localhost:5000/user/login", {
-        identifier,
+        email,
         password,
       });
 
       if (response.status === 200) {
-        setError("");
-        router.push("/");
+        console.log("DONE DONE DONE");
+        router.push("/fetch");
       } else {
         setError("Invalid credentials. Please try again.");
       }
@@ -32,9 +32,14 @@ function Login() {
   };
 
   return (
-    <div className="flex w-[60%] m-auto overflow-hidden">
-      <div className="w-[62.1%]">
-        <img src="/login.jpg" alt="beautiful" />
+    <div className="flex flex-col lg:flex-row w-[60%] m-auto overflow-hidden">
+      <div className="w-full lg:w-[62.1%]">
+        <img
+          src="/login.jpg"
+          alt="beautiful"
+          width="100%"
+          className="h-80 object-cover lg:h-full"
+        />
       </div>
       <div className="text-center text-4xl bg-[#FF5757] w-full h-[40rem] text-white p-12">
         <h1 className="font-bold">Welcome Back</h1>
@@ -42,7 +47,7 @@ function Login() {
         <h3 className="text-base">Join the world's largest community</h3>
 
         <form
-          className="flex-1 mt-6 gap-6 text-xl text-left px-32"
+          className="flex-1 mt-6 gap-6 text-xl text-left lg:px-32"
           onSubmit={handleSubmit}
         >
           <div>
@@ -52,8 +57,8 @@ function Login() {
               type="email"
               placeholder="Username, Email or Phone no."
               className="rounded-lg p-2 w-full text-black"
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
             />
           </div>
 
@@ -90,7 +95,7 @@ function Login() {
           <p className="text-xl p-6">Or Sign In using</p>
           <hr className="w-1/4" />
         </div>
-        <div className="flex gap-6 justify-between w-1/4 m-auto mt-2 hover:cursor-pointer">
+        <div className="flex gap-6 justify-between w-2/4 m-auto mt-2 hover:cursor-pointer">
           <FaGoogle />
           <FaFacebook />
           <FaItunes />

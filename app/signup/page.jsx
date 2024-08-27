@@ -136,7 +136,7 @@ function Signup() {
           <p className="text-xl p-6">Or Sign Up using</p>
           <hr className="w-1/4" />
         </div>
-        <div className="flex gap-6 justify-between w-1/4 m-auto mt-2 hover:cursor-pointer">
+        <div className="flex gap-6 justify-between w-2/4 m-auto mt-2 hover:cursor-pointer">
           <FaGoogle />
           <FaFacebook />
           <FaItunes />
